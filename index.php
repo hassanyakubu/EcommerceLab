@@ -1,3 +1,5 @@
+<?php require_once 'settings/core.php'; ?>
+
 <!DOCTYPE html>
 <html>
 <head>
