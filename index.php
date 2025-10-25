@@ -4,8 +4,9 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>E-Commerce Platform</title>
-    <!-- include your CSS and JS files here -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="navbar">
@@ -17,7 +18,10 @@
                     <li><a href="admin/brand.php" class="btn btn-secondary">Brand</a></li>
                     <li><a href="admin/product.php" class="btn btn-secondary">Add Product</a></li>
                 <?php endif; ?>
-                    <li><a href="actions/logout_action.php" class="btn btn-danger">Logout</a></li>
+                <li><a href="actions/logout_action.php" class="btn btn-danger">Logout</a></li>
+            <?php else: ?>
+                <li><a href="view/register.php" class="btn btn-primary">Register</a></li>
+                <li><a href="view/login.php" class="btn btn-secondary">Login</a></li>
             <?php endif; ?>
             </ul>
         </div>

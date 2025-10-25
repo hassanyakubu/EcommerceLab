@@ -29,6 +29,7 @@ class db_connection
 		if (mysqli_connect_errno()) {
 			return false;
 		}else{
+			mysqli_set_charset($this->db, 'utf8mb4');
 			return true;
 		}
 	}
@@ -42,6 +43,7 @@ class db_connection
 		if (mysqli_connect_errno()) {
 			return false;
 		}else{
+			mysqli_set_charset($this->db, 'utf8mb4');
 			return $this->db;
 		}
 	}
@@ -80,8 +82,12 @@ class db_connection
 	*@return bolean
 	**/
 	function db_query_escape_string($sqlQuery){
-		
-		//run query 
+		if (!$this->db_connect()) {
+			return false;
+		}
+		if ($this->db==null) {
+			return false;
+		}
 		$this->results = mysqli_query($this->db,$sqlQuery);
 		
 		if ($this->results == false) {

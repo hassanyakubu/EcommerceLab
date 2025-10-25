@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Login - E-Commerce Platform</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-MW3p+1rQe2b/nGq8q5tDkzKc6C0f8Qd1XvQ3tQ2vYkq5lOjVv+L9pQH2GkR8o3sYQ6s1m1m2yQ1M8r1G8j3z7A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="container">

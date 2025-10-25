@@ -273,3 +273,43 @@ a:hover {
 @media (max-width: 800px) {
     .row { gap: 12px; }
 }
+
+.navbar {
+    background: #111827;
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.navbar .menu {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 12px 16px;
+}
+.navbar .menu ul {
+    list-style: none;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.navbar .menu li a {
+    color: #e5e7eb;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+.navbar .menu li a:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+}
+
+.container .form-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+.container .form-container p {
+    color: #4b5563;
+}
+.container .form-container {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.btn + .btn { margin-left: 10px; }
