@@ -43,6 +43,10 @@ try {
 
     if ($result['status'] === 'success' && isset($result['customer'])) {
         $cust = $result['customer'];
+        // Regenerate session ID to prevent fixation
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_regenerate_id(true);
+        }
         // Set session variables
         $_SESSION['customer_id'] = $cust['customer_id'];
         $_SESSION['customer_name'] = $cust['customer_name'];

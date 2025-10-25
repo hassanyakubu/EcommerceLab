@@ -24,11 +24,10 @@ class product_class extends db_connection
                 ($desc !== null ? "'$desc'" : "NULL") . ", " .
                 ($image !== null ? "'$image'" : "NULL") . ", " .
                 ($keywords !== null ? "'$keywords'" : "NULL") . ")";
-        $ok = $this->db_query($sql);
-        if (!$ok) { return [false, null]; }
-        $row = $this->db_fetch_one("SELECT LAST_INSERT_ID() AS id");
-        $newId = $row && isset($row['id']) ? (int)$row['id'] : null;
-        return [$ok, $newId];
+        // Run INSERT on the same connection and get insert id reliably
+        if (!mysqli_query($db, $sql)) { return [false, null]; }
+        $newId = mysqli_insert_id($db);
+        return [true, $newId > 0 ? $newId : null];
     }
 
     public function update_product($product_id, $cat_id, $brand_id, $title, $price, $desc = null, $keywords = null)

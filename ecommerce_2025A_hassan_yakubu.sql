@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1deb3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jun 13, 2022 at 02:42 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.7
+-- Host: localhost:3306
+-- Generation Time: Oct 25, 2025 at 09:11 PM
+-- Server version: 8.0.43-0ubuntu0.24.04.2
+-- PHP Version: 8.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `shoppn`
+-- Database: `ecommerce_2025A_hassan_yakubu`
 --
 
 -- --------------------------------------------------------
@@ -28,8 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `brands` (
-  `brand_id` int(11) NOT NULL,
-  `brand_name` varchar(100) NOT NULL
+  `brand_id` int NOT NULL,
+  `brand_name` varchar(100) NOT NULL,
+  `cat_id` int NOT NULL,
+  `created_by` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -39,10 +41,10 @@ CREATE TABLE `brands` (
 --
 
 CREATE TABLE `cart` (
-  `p_id` int(11) NOT NULL,
+  `p_id` int NOT NULL,
   `ip_add` varchar(50) NOT NULL,
-  `c_id` int(11) DEFAULT NULL,
-  `qty` int(11) NOT NULL
+  `c_id` int DEFAULT NULL,
+  `qty` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -52,9 +54,19 @@ CREATE TABLE `cart` (
 --
 
 CREATE TABLE `categories` (
-  `cat_id` int(11) NOT NULL,
+  `cat_id` int NOT NULL,
   `cat_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`cat_id`, `cat_name`) VALUES
+(1, 'Electronics'),
+(3, 'Cleaning Supplies'),
+(4, 'Kitchenware'),
+(5, 'Candy and Chocolate');
 
 -- --------------------------------------------------------
 
@@ -63,7 +75,7 @@ CREATE TABLE `categories` (
 --
 
 CREATE TABLE `customer` (
-  `customer_id` int(11) NOT NULL,
+  `customer_id` int NOT NULL,
   `customer_name` varchar(100) NOT NULL,
   `customer_email` varchar(50) NOT NULL,
   `customer_pass` varchar(150) NOT NULL,
@@ -71,8 +83,20 @@ CREATE TABLE `customer` (
   `customer_city` varchar(30) NOT NULL,
   `customer_contact` varchar(15) NOT NULL,
   `customer_image` varchar(100) DEFAULT NULL,
-  `user_role` int(11) NOT NULL
+  `user_role` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`customer_id`, `customer_name`, `customer_email`, `customer_pass`, `customer_country`, `customer_city`, `customer_contact`, `customer_image`, `user_role`) VALUES
+(1, 'Victor Quagraine', 'vqaugs@gmail.com', '$2y$10$3Z5qwXbYU0ojteUR9AhWgOY4SzF.dEYYcn/pWBD/5tsRye1T7E3lW', 'Ghana', 'Accra', '0599259809', NULL, 2),
+(4, 'Nana Brown', 'brown@gmail.com', '$2y$10$bDgc0qRHG70Hj2.sT2ZDQehFixFehU77IdGmqb.rR.5wFn0ZIOvDC', 'Italy', 'Venice', '0204367589', NULL, 2),
+(6, 'Michelle Afari', 'mafari@gmail.com', '$2y$10$5Yk2PeSbJ5tLCrq4FIFJ1Ov4jP/MvExk0M7odi/KE637i/jy8FyuW', 'South Africa', 'Durban', '0303333099', NULL, 2),
+(7, 'Hassan Yakubu', 'yhassan677@gmail.com', '$2y$10$h90wFJYRqM4g4E.n9Vrzk.rm.Ske4KzHrnV1hh/sJAkN3Z/p1UGOC', 'Ghana', 'Accra', '0204200934', NULL, 2),
+(8, 'Nana Yaw Badu', 'nyaw@gmail.com', '$2y$10$3BXt351HYwv6TJUWBcJXluGWRr/XjmYyaPYDHI7D/sZrM8KFIBZ26', 'Ghana', 'Kumasi', '0541204098', NULL, 2),
+(9, 'Jeff Dahmer', 'jdahm@gmail.com', '$2y$10$TzKnbR3rwW8fvpm1YmQNquQ5Tv379PvoEc.o5eG73eeXLC9kTSJru', 'Ghana', 'Takoradi', '0505550575', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -81,9 +105,9 @@ CREATE TABLE `customer` (
 --
 
 CREATE TABLE `orderdetails` (
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `qty` int(11) NOT NULL
+  `order_id` int NOT NULL,
+  `product_id` int NOT NULL,
+  `qty` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -93,9 +117,9 @@ CREATE TABLE `orderdetails` (
 --
 
 CREATE TABLE `orders` (
-  `order_id` int(11) NOT NULL,
-  `customer_id` int(11) NOT NULL,
-  `invoice_no` int(11) NOT NULL,
+  `order_id` int NOT NULL,
+  `customer_id` int NOT NULL,
+  `invoice_no` int NOT NULL,
   `order_date` date NOT NULL,
   `order_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -107,10 +131,10 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `payment` (
-  `pay_id` int(11) NOT NULL,
+  `pay_id` int NOT NULL,
   `amt` double NOT NULL,
-  `customer_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `customer_id` int NOT NULL,
+  `order_id` int NOT NULL,
   `currency` text NOT NULL,
   `payment_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -122,9 +146,9 @@ CREATE TABLE `payment` (
 --
 
 CREATE TABLE `products` (
-  `product_id` int(11) NOT NULL,
-  `product_cat` int(11) NOT NULL,
-  `product_brand` int(11) NOT NULL,
+  `product_id` int NOT NULL,
+  `product_cat` int NOT NULL,
+  `product_brand` int NOT NULL,
   `product_title` varchar(200) NOT NULL,
   `product_price` double NOT NULL,
   `product_desc` varchar(500) DEFAULT NULL,
@@ -140,7 +164,10 @@ CREATE TABLE `products` (
 -- Indexes for table `brands`
 --
 ALTER TABLE `brands`
-  ADD PRIMARY KEY (`brand_id`);
+  ADD PRIMARY KEY (`brand_id`),
+  ADD UNIQUE KEY `ux_brand_name_cat_user` (`brand_name`,`cat_id`,`created_by`),
+  ADD KEY `fk_brands_cat` (`cat_id`),
+  ADD KEY `fk_brands_creator` (`created_by`);
 
 --
 -- Indexes for table `cart`
@@ -200,41 +227,48 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `brand_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `brand_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cat_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `customer_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pay_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `brands`
+--
+ALTER TABLE `brands`
+  ADD CONSTRAINT `fk_brands_cat` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`cat_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_brands_creator` FOREIGN KEY (`created_by`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `cart`

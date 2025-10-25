@@ -24,8 +24,7 @@ if ($cat_id <= 0) {
     exit;
 }
 
-$user_id = getCurrentUserId();
 $controller = new category_controller();
-$result = $controller->delete_category_ctr($cat_id, $user_id);
+$result = $controller->delete_category_ctr($cat_id);
 
 echo json_encode($result);

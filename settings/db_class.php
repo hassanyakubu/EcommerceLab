@@ -136,6 +136,9 @@ class db_connection
 		elseif ($this->results == false) {
 			return false;
 		}
+		elseif ($this->results instanceof mysqli_result) {
+			return mysqli_num_rows($this->results);
+		}
 		
 		//return a record
 		return mysqli_num_rows($this->results);
