@@ -226,7 +226,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showSuccessMessage(message) {
-        successMessage.querySelector('span').textContent = message;
+        const span = successMessage.querySelector('span');
+        if (span) {
+            span.textContent = message;
+        } else {
+            successMessage.textContent = message;
+        }
         successMessage.style.display = 'block';
         errorMessage.style.display = 'none';
     }
