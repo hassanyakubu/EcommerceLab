@@ -4,10 +4,15 @@
 <head>
   <meta charset="utf-8" />
   <title>All Products</title>
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/style.css?v=3" />
 </head>
 <body>
   <div class="container">
+    <div class="filters" style="margin-top:6px;">
+      <input type="text" id="searchInput" class="input" placeholder="Search products by title or keywords" />
+      <button id="searchBtn" class="btn btn-primary">Search</button>
+    </div>
+
     <div class="page-header">
       <a href="../index.php" class="btn btn-outline">← Home</a>
       <h2>All Products</h2>
@@ -20,8 +25,6 @@
       <select id="brandFilter" class="input">
         <option value="">All Brands</option>
       </select>
-      <input type="text" id="searchInput" class="input" placeholder="Search by title/keywords" />
-      <button id="searchBtn" class="btn btn-primary">Search</button>
     </div>
 
     <div id="products" class="grid"></div>
@@ -133,9 +136,16 @@
       }
     }
 
+    // Debounce helper
+    function debounce(fn, wait = 400) {
+      let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+    }
+
     catEl.addEventListener('change', () => { state.cat_id = catEl.value; state.page = 1; load(); });
     brandEl.addEventListener('change', () => { state.brand_id = brandEl.value; state.page = 1; load(); });
     searchBtn.addEventListener('click', () => { state.q = qEl.value.trim(); state.page = 1; load(); });
+    qEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') { state.q = qEl.value.trim(); state.page = 1; load(); }});
+    qEl.addEventListener('input', debounce(() => { state.q = qEl.value.trim(); state.page = 1; load(); }, 500));
 
     (async function init() {
       await loadFilters();
