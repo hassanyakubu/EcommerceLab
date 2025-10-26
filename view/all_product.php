@@ -126,6 +126,11 @@
       }
       renderProducts(resp.data);
       renderPagination(resp.total || 0, resp.page || 1, resp.per_page || state.per_page);
+      if (!resp.data || resp.data.length === 0) {
+        feedbackEl.textContent = 'No products found.';
+      } else {
+        feedbackEl.textContent = '';
+      }
     }
 
     catEl.addEventListener('change', () => { state.cat_id = catEl.value; state.page = 1; load(); });

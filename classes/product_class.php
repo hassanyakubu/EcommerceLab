@@ -73,8 +73,8 @@ class product_class extends db_connection
         if ($product_id <= 0) { return false; }
         $sql = "SELECT p.*, c.cat_name, b.brand_name
                 FROM products p
-                JOIN categories c ON c.cat_id = p.product_cat
-                JOIN brands b ON b.brand_id = p.product_brand
+                LEFT JOIN categories c ON c.cat_id = p.product_cat
+                LEFT JOIN brands b ON b.brand_id = p.product_brand
                 WHERE p.product_id='$product_id'";
         return $this->db_fetch_one($sql);
     }
@@ -96,10 +96,10 @@ class product_class extends db_connection
         $limit = max(1, (int)$limit);
         $offset = max(0, (int)$offset);
         $sql = "SELECT p.product_id, p.product_title, p.product_price, p.product_desc, p.product_image, p.product_keywords,
-                       c.cat_id, c.cat_name, b.brand_id, b.brand_name
+                       p.product_cat AS cat_id, c.cat_name, p.product_brand AS brand_id, b.brand_name
                 FROM products p
-                JOIN categories c ON c.cat_id = p.product_cat
-                JOIN brands b ON b.brand_id = p.product_brand
+                LEFT JOIN categories c ON c.cat_id = p.product_cat
+                LEFT JOIN brands b ON b.brand_id = p.product_brand
                 ORDER BY p.product_id DESC
                 LIMIT $limit OFFSET $offset";
         return $this->db_fetch_all($sql);
@@ -119,12 +119,12 @@ class product_class extends db_connection
         $offset = max(0, (int)$offset);
         if ($q === '') { return []; }
         $sql = "SELECT p.product_id, p.product_title, p.product_price, p.product_desc, p.product_image, p.product_keywords,
-                       c.cat_id, c.cat_name, b.brand_id, b.brand_name
+                       p.product_cat AS cat_id, c.cat_name, p.product_brand AS brand_id, b.brand_name
                 FROM products p
-                JOIN categories c ON c.cat_id = p.product_cat
-                JOIN brands b ON b.brand_id = p.product_brand
+                LEFT JOIN categories c ON c.cat_id = p.product_cat
+                LEFT JOIN brands b ON b.brand_id = p.product_brand
                 WHERE p.product_title LIKE '%$q%' OR p.product_keywords LIKE '%$q%'
-                ORDER BY p.product_title ASC
+                ORDER BY p.product_id DESC
                 LIMIT $limit OFFSET $offset";
         return $this->db_fetch_all($sql);
     }
@@ -145,12 +145,12 @@ class product_class extends db_connection
         $limit = max(1, (int)$limit);
         $offset = max(0, (int)$offset);
         $sql = "SELECT p.product_id, p.product_title, p.product_price, p.product_desc, p.product_image, p.product_keywords,
-                       c.cat_id, c.cat_name, b.brand_id, b.brand_name
+                       p.product_cat AS cat_id, c.cat_name, p.product_brand AS brand_id, b.brand_name
                 FROM products p
-                JOIN categories c ON c.cat_id = p.product_cat
-                JOIN brands b ON b.brand_id = p.product_brand
-                WHERE c.cat_id = '$cat_id'
-                ORDER BY p.product_title ASC
+                LEFT JOIN categories c ON c.cat_id = p.product_cat
+                LEFT JOIN brands b ON b.brand_id = p.product_brand
+                WHERE p.product_cat = '$cat_id'
+                ORDER BY p.product_id DESC
                 LIMIT $limit OFFSET $offset";
         return $this->db_fetch_all($sql);
     }
@@ -170,12 +170,12 @@ class product_class extends db_connection
         $limit = max(1, (int)$limit);
         $offset = max(0, (int)$offset);
         $sql = "SELECT p.product_id, p.product_title, p.product_price, p.product_desc, p.product_image, p.product_keywords,
-                       c.cat_id, c.cat_name, b.brand_id, b.brand_name
+                       p.product_cat AS cat_id, c.cat_name, p.product_brand AS brand_id, b.brand_name
                 FROM products p
-                JOIN categories c ON c.cat_id = p.product_cat
-                JOIN brands b ON b.brand_id = p.product_brand
-                WHERE b.brand_id = '$brand_id'
-                ORDER BY p.product_title ASC
+                LEFT JOIN categories c ON c.cat_id = p.product_cat
+                LEFT JOIN brands b ON b.brand_id = p.product_brand
+                WHERE p.product_brand = '$brand_id'
+                ORDER BY p.product_id DESC
                 LIMIT $limit OFFSET $offset";
         return $this->db_fetch_all($sql);
     }
