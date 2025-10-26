@@ -12,6 +12,7 @@
     <div class="navbar">
         <div class="menu">
             <ul>
+                <li><a href="view/all_product.php" class="btn btn-outline">All Products</a></li>
             <?php if (isLoggedIn()): ?>
                 <?php if (isAdmin()): ?>
                     <li><a href="admin/category.php" class="btn btn-secondary">Category</a></li>
@@ -23,6 +24,12 @@
                 <li><a href="view/register.php" class="btn btn-primary">Register</a></li>
                 <li><a href="view/login.php" class="btn btn-secondary">Login</a></li>
             <?php endif; ?>
+                <li>
+                    <form action="view/product_search_result.php" method="get">
+                        <input type="text" name="q" placeholder="Search products" class="input" />
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>

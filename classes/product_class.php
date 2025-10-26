@@ -89,4 +89,113 @@ class product_class extends db_connection
                 ORDER BY c.cat_name ASC, b.brand_name ASC, p.product_title ASC";
         return $this->db_fetch_all($sql);
     }
+
+    // Storefront helpers
+    public function view_all_products($limit = 10, $offset = 0)
+    {
+        $limit = max(1, (int)$limit);
+        $offset = max(0, (int)$offset);
+        $sql = "SELECT p.product_id, p.product_title, p.product_price, p.product_desc, p.product_image, p.product_keywords,
+                       c.cat_id, c.cat_name, b.brand_id, b.brand_name
+                FROM products p
+                JOIN categories c ON c.cat_id = p.product_cat
+                JOIN brands b ON b.brand_id = p.product_brand
+                ORDER BY p.product_id DESC
+                LIMIT $limit OFFSET $offset";
+        return $this->db_fetch_all($sql);
+    }
+
+    public function count_all_products()
+    {
+        $row = $this->db_fetch_one("SELECT COUNT(*) AS cnt FROM products");
+        return $row ? (int)$row['cnt'] : 0;
+    }
+
+    public function search_products($query, $limit = 10, $offset = 0)
+    {
+        $db = $this->db_conn();
+        $q = mysqli_real_escape_string($db, trim((string)$query));
+        $limit = max(1, (int)$limit);
+        $offset = max(0, (int)$offset);
+        if ($q === '') { return []; }
+        $sql = "SELECT p.product_id, p.product_title, p.product_price, p.product_desc, p.product_image, p.product_keywords,
+                       c.cat_id, c.cat_name, b.brand_id, b.brand_name
+                FROM products p
+                JOIN categories c ON c.cat_id = p.product_cat
+                JOIN brands b ON b.brand_id = p.product_brand
+                WHERE p.product_title LIKE '%$q%' OR p.product_keywords LIKE '%$q%'
+                ORDER BY p.product_title ASC
+                LIMIT $limit OFFSET $offset";
+        return $this->db_fetch_all($sql);
+    }
+
+    public function count_search_products($query)
+    {
+        $db = $this->db_conn();
+        $q = mysqli_real_escape_string($db, trim((string)$query));
+        if ($q === '') { return 0; }
+        $row = $this->db_fetch_one("SELECT COUNT(*) AS cnt FROM products WHERE product_title LIKE '%$q%' OR product_keywords LIKE '%$q%'");
+        return $row ? (int)$row['cnt'] : 0;
+    }
+
+    public function filter_products_by_category($cat_id, $limit = 10, $offset = 0)
+    {
+        $cat_id = (int)$cat_id;
+        if ($cat_id <= 0) { return []; }
+        $limit = max(1, (int)$limit);
+        $offset = max(0, (int)$offset);
+        $sql = "SELECT p.product_id, p.product_title, p.product_price, p.product_desc, p.product_image, p.product_keywords,
+                       c.cat_id, c.cat_name, b.brand_id, b.brand_name
+                FROM products p
+                JOIN categories c ON c.cat_id = p.product_cat
+                JOIN brands b ON b.brand_id = p.product_brand
+                WHERE c.cat_id = '$cat_id'
+                ORDER BY p.product_title ASC
+                LIMIT $limit OFFSET $offset";
+        return $this->db_fetch_all($sql);
+    }
+
+    public function count_by_category($cat_id)
+    {
+        $cat_id = (int)$cat_id;
+        if ($cat_id <= 0) { return 0; }
+        $row = $this->db_fetch_one("SELECT COUNT(*) AS cnt FROM products WHERE product_cat='$cat_id'");
+        return $row ? (int)$row['cnt'] : 0;
+    }
+
+    public function filter_products_by_brand($brand_id, $limit = 10, $offset = 0)
+    {
+        $brand_id = (int)$brand_id;
+        if ($brand_id <= 0) { return []; }
+        $limit = max(1, (int)$limit);
+        $offset = max(0, (int)$offset);
+        $sql = "SELECT p.product_id, p.product_title, p.product_price, p.product_desc, p.product_image, p.product_keywords,
+                       c.cat_id, c.cat_name, b.brand_id, b.brand_name
+                FROM products p
+                JOIN categories c ON c.cat_id = p.product_cat
+                JOIN brands b ON b.brand_id = p.product_brand
+                WHERE b.brand_id = '$brand_id'
+                ORDER BY p.product_title ASC
+                LIMIT $limit OFFSET $offset";
+        return $this->db_fetch_all($sql);
+    }
+
+    public function count_by_brand($brand_id)
+    {
+        $brand_id = (int)$brand_id;
+        if ($brand_id <= 0) { return 0; }
+        $row = $this->db_fetch_one("SELECT COUNT(*) AS cnt FROM products WHERE product_brand='$brand_id'");
+        return $row ? (int)$row['cnt'] : 0;
+    }
+
+    public function view_single_product($id)
+    {
+        return $this->get_product((int)$id);
+    }
+
+    public function get_all_brands_public()
+    {
+        $sql = "SELECT brand_id, brand_name FROM brands ORDER BY brand_name ASC";
+        return $this->db_fetch_all($sql);
+    }
 }

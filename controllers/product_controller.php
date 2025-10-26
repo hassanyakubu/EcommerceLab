@@ -73,4 +73,64 @@ class product_controller
         if ($row) { return ['status' => 'success', 'data' => $row]; }
         return ['status' => 'error', 'message' => 'Product not found.'];
     }
+
+    // Storefront controllers
+    public function list_products_ctr($page = 1, $perPage = 10)
+    {
+        $page = max(1, (int)$page);
+        $perPage = max(1, (int)$perPage);
+        $offset = ($page - 1) * $perPage;
+        $data = $this->model->view_all_products($perPage, $offset);
+        $total = $this->model->count_all_products();
+        return ['status' => 'success', 'data' => $data, 'total' => $total, 'page' => $page, 'per_page' => $perPage];
+    }
+
+    public function search_products_ctr($query, $page = 1, $perPage = 10)
+    {
+        $page = max(1, (int)$page);
+        $perPage = max(1, (int)$perPage);
+        $offset = ($page - 1) * $perPage;
+        $data = $this->model->search_products($query, $perPage, $offset);
+        $total = $this->model->count_search_products($query);
+        return ['status' => 'success', 'data' => $data, 'total' => $total, 'page' => $page, 'per_page' => $perPage];
+    }
+
+    public function filter_by_category_ctr($cat_id, $page = 1, $perPage = 10)
+    {
+        $page = max(1, (int)$page);
+        $perPage = max(1, (int)$perPage);
+        $offset = ($page - 1) * $perPage;
+        $data = $this->model->filter_products_by_category($cat_id, $perPage, $offset);
+        $total = $this->model->count_by_category($cat_id);
+        return ['status' => 'success', 'data' => $data, 'total' => $total, 'page' => $page, 'per_page' => $perPage];
+    }
+
+    public function filter_by_brand_ctr($brand_id, $page = 1, $perPage = 10)
+    {
+        $page = max(1, (int)$page);
+        $perPage = max(1, (int)$perPage);
+        $offset = ($page - 1) * $perPage;
+        $data = $this->model->filter_products_by_brand($brand_id, $perPage, $offset);
+        $total = $this->model->count_by_brand($brand_id);
+        return ['status' => 'success', 'data' => $data, 'total' => $total, 'page' => $page, 'per_page' => $perPage];
+    }
+
+    public function single_product_ctr($id)
+    {
+        $row = $this->model->view_single_product($id);
+        if ($row) { return ['status' => 'success', 'data' => $row]; }
+        return ['status' => 'error', 'message' => 'Product not found.'];
+    }
+
+    public function get_all_brands_public_ctr()
+    {
+        $rows = $this->model->get_all_brands_public();
+        return ['status' => 'success', 'data' => $rows ?: []];
+    }
+
+    public function get_all_brands_public_ctr()
+    {
+        $rows = $this->model->get_all_brands_public();
+        return ['status' => 'success', 'data' => $rows ?: []];
+    }
 }
