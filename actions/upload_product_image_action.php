@@ -105,9 +105,10 @@ try {
     }
 
     error_log("UPLOAD DEBUG: Trying to move uploaded file to " . $destPath);
-    
+
     // Extra debugging around file move
     error_log("UPLOAD DEBUG: tmp_name=" . $_FILES['image']['tmp_name'] . " destPath=$destPath");
+    error_log("Trying to move upload to: " . $destPath);
     if (move_uploaded_file($_FILES['image']['tmp_name'], $destPath)) {
         error_log("UPLOAD SUCCESS: saved to $destPath");
     } else {
