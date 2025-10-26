@@ -49,6 +49,7 @@ try {
 
     // Ensure uploads directory exists (create if necessary)
     $uploadsRoot = '/home/hassan.yakubu/public_html/uploads';
+    error_log("UPLOAD DEBUG: Using uploadsRoot = " . $uploadsRoot);
     if (!is_dir($uploadsRoot)) {
         if (!mkdir($uploadsRoot, 0755, true)) {
             echo json_encode(['status' => 'error', 'message' => 'Failed to prepare uploads directory.']);
@@ -99,6 +100,8 @@ try {
         exit;
     }
 
+    error_log("UPLOAD DEBUG: Trying to move uploaded file to " . $destPath);
+    
     if (!move_uploaded_file($_FILES['image']['tmp_name'], $destPath)) {
         echo json_encode(['status' => 'error', 'message' => 'Failed to store uploaded image.']);
         exit;
