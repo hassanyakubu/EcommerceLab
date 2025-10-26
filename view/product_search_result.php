@@ -1,11 +1,11 @@
-<?php require_once __DIR__ . '/../settings/core.php'; ?>
+<?php require_once __DIR__ . '/../settings/core.php'; if (!isLoggedIn()) { header('Location: login.php'); exit; } ?>
 <?php $q = isset($_GET['q']) ? trim($_GET['q']) : ''; ?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
   <title>Search Results</title>
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/style.css?v=3" />
 </head>
 <body>
   <div class="container">

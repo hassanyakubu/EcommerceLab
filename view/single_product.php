@@ -1,11 +1,11 @@
-<?php require_once __DIR__ . '/../settings/core.php'; ?>
+<?php require_once __DIR__ . '/../settings/core.php'; if (!isLoggedIn()) { header('Location: login.php'); exit; } ?>
 <?php $id = isset($_GET['id']) ? (int)$_GET['id'] : 0; ?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
   <title>Product Details</title>
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/style.css?v=3" />
   <style>
     .layout { display:grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }

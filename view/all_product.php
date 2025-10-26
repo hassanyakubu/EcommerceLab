@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/../settings/core.php'; ?>
+<?php require_once __DIR__ . '/../settings/core.php'; if (!isLoggedIn()) { header('Location: login.php'); exit; } ?>
 <!DOCTYPE html>
 <html>
 <head>

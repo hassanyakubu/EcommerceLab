@@ -6,10 +6,18 @@ ini_set('log_errors', 1);
 ob_start();
 
 header('Content-Type: application/json');
-require_once __DIR__ . '/../controllers/product_controller.php';
-require_once __DIR__ . '/../controllers/category_controller.php';
 
 try {
+    require_once __DIR__ . '/../settings/core.php';
+    require_once __DIR__ . '/../controllers/product_controller.php';
+    require_once __DIR__ . '/../controllers/category_controller.php';
+
+    if (!isLoggedIn()) {
+        if (ob_get_length() !== false) { ob_end_clean(); }
+        echo json_encode(['status' => 'error', 'message' => 'Not authenticated.']);
+        exit;
+    }
+
     $action   = $_GET['action'] ?? $_POST['action'] ?? '';
     $page     = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $perPage  = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 10;

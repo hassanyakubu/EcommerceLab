@@ -127,10 +127,4 @@ class product_controller
         $rows = $this->model->get_all_brands_public();
         return ['status' => 'success', 'data' => $rows ?: []];
     }
-
-    public function get_all_brands_public_ctr()
-    {
-        $rows = $this->model->get_all_brands_public();
-        return ['status' => 'success', 'data' => $rows ?: []];
-    }
 }

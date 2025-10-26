@@ -6,30 +6,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>E-Commerce Platform</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
     <div class="navbar">
         <div class="menu">
             <ul>
-                <li><a href="view/all_product.php" class="btn btn-outline">All Products</a></li>
             <?php if (isLoggedIn()): ?>
+                <li><a href="view/all_product.php" class="btn btn-outline">All Products</a></li>
                 <?php if (isAdmin()): ?>
                     <li><a href="admin/category.php" class="btn btn-secondary">Category</a></li>
                     <li><a href="admin/brand.php" class="btn btn-secondary">Brand</a></li>
                     <li><a href="admin/product.php" class="btn btn-secondary">Add Product</a></li>
                 <?php endif; ?>
                 <li><a href="actions/logout_action.php" class="btn btn-danger">Logout</a></li>
-            <?php else: ?>
-                <li><a href="view/register.php" class="btn btn-primary">Register</a></li>
-                <li><a href="view/login.php" class="btn btn-secondary">Login</a></li>
-            <?php endif; ?>
                 <li>
                     <form action="view/product_search_result.php" method="get">
                         <input type="text" name="q" placeholder="Search products" class="input" />
                         <button type="submit" class="btn btn-primary">Search</button>
                     </form>
                 </li>
+            <?php else: ?>
+                <li><a href="view/register.php" class="btn btn-primary">Register</a></li>
+                <li><a href="view/login.php" class="btn btn-secondary">Login</a></li>
+            <?php endif; ?>
             </ul>
         </div>
     </div>
