@@ -40,6 +40,7 @@
 
   <script>
     const API = '../actions/product_actions.php';
+    const IMG_PREFIX = '/~hassan.yakubu/';
     const id = <?php echo json_encode($id); ?>;
     const pid = document.getElementById('pid');
     const ptitle = document.getElementById('ptitle');
@@ -67,7 +68,7 @@
       pbrand.textContent = p.brand_name;
       pdesc.textContent = p.product_desc || '';
       pkeys.textContent = p.product_keywords || '';
-      pimg.src = p.product_image ? ('../' + p.product_image) : 'https://via.placeholder.com/600?text=No+Image';
+      pimg.src = p.product_image ? (IMG_PREFIX + p.product_image) : 'https://placehold.co/600x600?text=No+Image';
       pimg.alt = p.product_title;
     }
 

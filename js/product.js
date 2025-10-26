@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch: '../actions/fetch_products_action.php',
   };
 
+  const IMG_PREFIX = '/~hassan.yakubu/';
+
   let allBrands = [];
 
   function showMessage(el, msg, ok = true) {
@@ -158,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tdImg = document.createElement('td');
         if (p.product_image) {
           const img = document.createElement('img');
-          img.src = '../' + p.product_image;
+          img.src = IMG_PREFIX + p.product_image;
           img.alt = p.product_title;
           img.style.maxWidth = '60px';
           img.style.maxHeight = '60px';

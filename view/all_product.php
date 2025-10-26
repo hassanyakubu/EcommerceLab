@@ -34,6 +34,7 @@
 
   <script>
     const API = '../actions/product_actions.php';
+    const IMG_PREFIX = '/~hassan.yakubu/';
     const productsEl = document.getElementById('products');
     const pagEl = document.getElementById('pagination');
     const feedbackEl = document.getElementById('feedback');
@@ -59,7 +60,7 @@
     function renderProducts(data) {
       productsEl.innerHTML = '';
       (data || []).forEach(p => {
-        const img = p.product_image ? ('../' + p.product_image) : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="100%" height="100%" fill="%23f3f4f6"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%239ca3af" font-family="Arial,Helvetica,sans-serif" font-size="20">No Image</text></svg>';
+        const img = p.product_image ? (IMG_PREFIX + p.product_image) : 'https://placehold.co/400x400?text=No+Image';
         const el = document.createElement('div');
         el.className = 'card';
         el.innerHTML = `
