@@ -48,7 +48,7 @@ try {
     }
 
     // Ensure uploads directory exists (create if necessary)
-    $uploadsRoot = '/home/hassan.yakubu/uploads';
+    $uploadsRoot = '/home/hassan.yakubu/public_html/uploads';
     if (!is_dir($uploadsRoot)) {
         if (!mkdir($uploadsRoot, 0755, true)) {
             echo json_encode(['status' => 'error', 'message' => 'Failed to prepare uploads directory.']);
