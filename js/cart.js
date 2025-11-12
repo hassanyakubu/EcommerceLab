@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const input = this.closest('.input-group').querySelector('.quantity-input');
             const productId = input.dataset.productId;
             let newQty = parseInt(input.value);
-            
+
             if (this.dataset.action === 'increase') {
                 newQty++;
             } else if (this.dataset.action === 'decrease' && newQty > 1) {
                 newQty--;
             }
-            
+
             if (newQty !== parseInt(input.value)) {
                 updateCartItem(productId, newQty);
             }
@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('change', function() {
             const productId = this.dataset.productId;
             const newQty = Math.max(1, parseInt(this.value) || 1);
-            
+
             if (newQty !== parseInt(this.value)) {
                 this.value = newQty;
             }
-            
+
             updateCartItem(productId, newQty);
         });
     });
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Remove item
     let productToRemove = null;
     const removeModal = new bootstrap.Modal(document.getElementById('removeItemModal'));
-    
+
     document.querySelectorAll('.remove-from-cart').forEach(button => {
         button.addEventListener('click', function() {
             productToRemove = this.dataset.productId;
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Update cart item quantity
+    // Functions
     function updateCartItem(productId, quantity) {
         const formData = new FormData();
         formData.append('product_id', productId);
@@ -70,12 +70,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                // Update the UI
                 const row = document.querySelector(`tr[data-product-id="${productId}"]`);
                 if (row) {
                     const price = parseFloat(row.querySelector('.price').textContent.replace('₵', ''));
-                    const subtotal = price * quantity;
-                    row.querySelector('.subtotal').textContent = `₵${subtotal.toFixed(2)}`;
+                    row.querySelector('.subtotal').textContent = `₵${(price * quantity).toFixed(2)}`;
                     document.getElementById('cart-total').textContent = `₵${parseFloat(data.cart_total).toFixed(2)}`;
                 }
             } else {
@@ -88,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Remove item from cart
     function removeFromCart(productId) {
         const formData = new FormData();
         formData.append('product_id', productId);
@@ -100,25 +97,14 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                // Remove the row from the table
                 const row = document.querySelector(`tr[data-product-id="${productId}"]`);
-                if (row) {
-                    row.remove();
-                }
-                
-                // Update cart total
+                if (row) row.remove();
+
                 document.getElementById('cart-total').textContent = `₵${parseFloat(data.cart_total).toFixed(2)}`;
-                
-                // Update cart count in header if it exists
                 const cartCount = document.getElementById('cart-count');
-                if (cartCount) {
-                    cartCount.textContent = data.cart_count;
-                }
-                
-                // If cart is empty, reload the page to show empty cart message
-                if (data.cart_count === 0) {
-                    location.reload();
-                }
+                if (cartCount) cartCount.textContent = data.cart_count;
+
+                if (data.cart_count === 0) location.reload();
             } else {
                 alert('Failed to remove item: ' + data.message);
             }
@@ -129,20 +115,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Empty cart
     function emptyCart() {
-        fetch('actions/empty_cart_action.php', {
-            method: 'POST'
-        })
+        fetch('actions/empty_cart_action.php', { method: 'POST' })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                // Update cart count in header if it exists
                 const cartCount = document.getElementById('cart-count');
-                if (cartCount) {
-                    cartCount.textContent = '0';
-                }
-                // Reload to show empty cart message
+                if (cartCount) cartCount.textContent = '0';
                 location.reload();
             } else {
                 alert('Failed to empty cart: ' + data.message);
